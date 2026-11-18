@@ -15,6 +15,7 @@ import 'package:bluebubbles/services/network/http_overrides.dart';
 import 'package:bluebubbles/utils/logger/logger.dart';
 import 'package:bluebubbles/utils/media_kit_hot_restart_fix.dart'
     if (dart.library.html) 'package:bluebubbles/utils/media_kit_hot_restart_fix_web.dart';
+import 'package:bluebubbles/utils/linux_emoji_font.dart';
 import 'package:bluebubbles/utils/window_effects.dart';
 import 'package:bluebubbles/app/layouts/conversation_list/pages/conversation_list.dart';
 import 'package:bluebubbles/app/layouts/startup/failure_to_start.dart';
@@ -227,6 +228,7 @@ Future<Null> initApp(bool bubble, List<String> arguments) async {
 
       /* ----- EMOJI FONT INITIALIZATION ----- */
       Future.microtask(() => FilesystemSvc.checkFont());
+      if (!kIsWeb && Platform.isLinux) Future.microtask(loadLinuxEmojiFont);
     } catch (e, s) {
       print(s.toString());
       Logger.error("Failure during app initialization!", error: e, trace: s);
